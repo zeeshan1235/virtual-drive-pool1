@@ -16,6 +16,13 @@ jobs:
       with:
         python-version: '3.10'
 
+    - name: Clear Buildozer Cache
+      run: |
+        rm -rf ~/.buildozer
+        rm -rf .buildozer/
+        mkdir -p "$HOME/.android"
+        touch "$HOME/.android/repositories.cfg"
+
     - name: Install dependencies
       run: |
         pip install --upgrade pip
@@ -23,14 +30,21 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y git zip unzip openjdk-17-jdk autoconf automake libtool pkg-config zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev tk-dev libgdbm-compat-dev
 
-    - name: Accept Android SDK Licenses
+    - name: Force Accept Android SDK Licenses
       run: |
-        mkdir -p "$HOME/.android"
-        touch "$HOME/.android/repositories.cfg"
+        sudo apt-get install -y sdkmanager || true
         yes | sdkmanager --licenses || true
+        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+        yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses || true
 
     - name: Build with Buildozer
       run: |
-        buildozer android debug
+        yes | buildozer android debug
       env:
         GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
+    - name: Upload APK Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: package
+        path: bin/*.apk
