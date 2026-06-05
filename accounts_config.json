@@ -1,0 +1,17 @@
+{
+    "accounts": [
+        {
+            "id": "account_1",
+            "creds": {
+                "token": "ya29.a0AT3oNZ8ZkwyXPbdF64_Yd46cedQaQreBUEBTVfivUZW-pVoteTL8pNI1lwd-u5Sso9d-LAFt62zgInHoYIhqDbYLuEZmjWOqXfqBWo4eSDEsSlwUmgyx909mistfoE7r6mSSLv3EjXaIlldMP0iQDzbIL9Tf0Npanky6KBipionj4FsvzeNzkowSuKg8eoikH3rNQ5QaCgYKAcUSARISFQHGX2MiQx-jj3UAZjkPXd9j35fKJA0206",
+                "refresh_token": "1//03KZcJWQ4699vCgYIARAAGAMSNwF-L9IriVkUgs5V0qnGSZhYyzwHXWDyUIuVCZdyPN0aCbSvBhCLiTQG4ok2l4QLXVRjcwUX9iI",
+                "token_uri": "https://oauth2.googleapis.com/token",
+                "client_id": "156428592155-g7g0s0civ64vs0qlujptmhdfprsvs72l.apps.googleusercontent.com",
+                "client_secret": "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",
+                "scopes": [
+                    "https://www.googleapis.com/auth/drive"
+                ]
+            }
+        }
+    ]
+}
