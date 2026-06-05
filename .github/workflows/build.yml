@@ -16,32 +16,19 @@ jobs:
       with:
         python-version: '3.10'
 
-    - name: Clear Buildozer Cache
-      run: |
-        rm -rf ~/.buildozer
-        rm -rf .buildozer/
-        mkdir -p "$HOME/.android"
-        touch "$HOME/.android/repositories.cfg"
-
-    - name: Install dependencies
+    - name: Install Speed Dependencies
       run: |
         pip install --upgrade pip
         pip install cython==0.29.36 buildozer
         sudo apt-get update
-        sudo apt-get install -y git zip unzip openjdk-17-jdk autoconf automake libtool pkg-config zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev tk-dev libgdbm-compat-dev
+        sudo apt-get install -y ccache git zip unzip openjdk-17-jdk autoconf automake libtool pkg-config zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev tk-dev libgdbm-compat-dev
 
-    - name: Force Accept Android SDK Licenses
+    - name: Fast Build with Buildozer
       run: |
-        sudo apt-get install -y sdkmanager || true
-        yes | sdkmanager --licenses || true
-        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
-        yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses || true
-
-    - name: Build with Buildozer
-      run: |
-        yes | buildozer android debug
+        mkdir -p ~/.buildozer && echo "[buildozer]" > ~/.buildozer/config || true
+        buildozer android debug
       env:
-        GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+        GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.parallel=true -Dorg.gradle.configureondemand=true"
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
