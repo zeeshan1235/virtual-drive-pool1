@@ -1,4 +1,5 @@
 name: Build Android APK
+# Force trigger to bypass queue
 on: [push]
 jobs:
   build:
